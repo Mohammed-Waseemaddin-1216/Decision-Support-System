@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Support System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen">
+
+    <nav class="bg-gray-900 border-b border-gray-800 p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-blue-400 tracking-tight">DECISION SUPPORT SYSTEM</h1>
+        <div id="status" class="text-xs font-mono text-green-500">● SYSTEM ONLINE</div>
+    </nav>
+
+    <div class="bg-gray-900 p-4 shadow-lg flex flex-wrap gap-6 items-center border-b border-gray-800">
+        <div>
+            <label class="block text-[10px] uppercase text-gray-500 font-bold mb-1">Mode</label>
+            <select id="mode" onchange="togglePersonalOptions()" class="bg-gray-800 border-none rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none w-48">
+                <option>Organisation Mode</option>
+                <option>Personal Mode</option>
+            </select>
+        </div>
+
+        <div id="scenario-box" class="hidden">
+            <label class="block text-[10px] uppercase text-gray-500 font-bold mb-1">Scenario</label>
+            <select id="scenario" onchange="loadScenario()" class="bg-gray-800 border-none rounded px-3 py-2 text-sm outline-none w-48 text-blue-300">
+                <option value="">Choose Scenario...</option>
+                <option value="Study Schedule">Study Schedule</option>
+                <option value="Exam vs Project">Exam vs Project</option>
+                <option value="Career Path">Career Path</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-[10px] uppercase text-gray-500 font-bold mb-1">Images</label>
+            <input type="number" id="images" value="0" class="bg-gray-800 border-none rounded px-3 py-2 text-sm w-20 outline-none">
+        </div>
+
+        <button onclick="runAnalysis()" class="ml-auto bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-8 rounded transition duration-200">
+            RUN ANALYSIS
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+        
+        <div class="space-y-4">
+            <h2 class="text-gray-400 text-sm font-bold flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue-500 rounded-full"></span> INPUT STREAM
+            </h2>
+            <textarea id="inputText" class="w-full h-96 bg-gray-900 border border-gray-800 rounded-lg p-4 font-mono text-sm focus:border-blue-500 outline-none resize-none shadow-inner" placeholder="Enter data or select a scenario..."></textarea>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <h2 class="text-gray-400 text-sm font-bold flex items-center gap-2 mb-4">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span> INTELLIGENCE REPORT
+                </h2>
+                <div id="outputBox" class="bg-gray-900 border border-gray-800 rounded-lg p-6 min-h-[150px] font-mono text-blue-400 text-sm whitespace-pre-wrap">
+                    Results will appear here after analysis...
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-gray-400 text-sm font-bold mb-4">VISUALIZATION</h2>
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 h-64 flex items-center justify-center">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myChart;
+
+        function togglePersonalOptions() {
+            const mode = document.getElementById('mode').value;
+            document.getElementById('scenario-box').classList.toggle('hidden', mode !== 'Personal Mode');
+        }
+
+        function loadScenario() {
+            const scenario = document.getElementById('scenario').value;
+            const scenarios = {
+                "Study Schedule": "How should I divide my hours between subjects?",
+                "Exam vs Project": "I have an exam and a project due. Which is the priority?",
+                "Career Path": "Should I choose AI or Web Development for my future?"
+            };
+            if(scenarios[scenario]) document.getElementById('inputText').value = scenarios[scenario];
+        }
+
+        async function runAnalysis() {
+            const btn = document.querySelector('button');
+            btn.innerText = "PROCESSING...";
+            
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    text: document.getElementById('inputText').value,
+                    mode: document.getElementById('mode').value,
+                    images: document.getElementById('images').value
+                })
+            });
+
+            const data = await response.json();
+            btn.innerText = "RUN ANALYSIS";
+
+            let output = "";
+            if(data.decision) {
+                output = data.decision;
+                if(myChart) myChart.destroy();
+            } else {
+                output = `STATUS: ${data.status}\n\nSUGGESTIONS:\n${data.suggestions.map(s => '• ' + s).join('\n')}`;
+                updateChart(data.chart_data);
+            }
+            document.getElementById('outputBox').innerText = output;
+        }
+
+        function updateChart(chartData) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(chartData),
+                    datasets: [{
+                        label: 'Feature Weight',
+                        data: Object.values(chartData),
+                        backgroundColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#1f2937' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
