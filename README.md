@@ -36,6 +36,9 @@ Ensure you have Python 3.x installed along with the following libraries:
 
 Bash
 pip install flask pandas openpyxl scikit-learn
+
+
+
 🏃 Quick Start
 Place the marketing_campaign.xlsx dataset in the root directory.
 
@@ -49,7 +52,9 @@ Plaintext
 http://127.0.0.1:5000
 📂 Project Structure
 Plaintext
+
 decision_app/
+
 ├── app.py              # Flask Backend & ML Logic
 ├── marketing_campaign.xlsx # Dataset
 ├── README.md           # Documentation
