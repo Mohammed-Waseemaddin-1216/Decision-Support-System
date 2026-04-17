@@ -1,67 +1,45 @@
-# Desicion-Support-System
+🚀 Real-Time Decision Support System
 
-A professional web-based dashboard that leverages Machine Learning (Random Forest) to provide real-time decision support for organizational marketing and personal productivity.
+🧠 Overview
+This project is a machine learning-based decision support system designed to analyze user activity data and provide real-time productivity recommendations. The system processes input data, identifies patterns, and generates actionable insights to improve user efficiency.
 
-🚀 Overview
-This project bridges the gap between complex data analysis and actionable insights. It features a dual-mode intelligence engine:
+⚙️ Model Details
+- **Algorithm:** Random Forest Classifier  
+- **Accuracy:** **87%**  
+- **Type:** Supervised Machine Learning  
+- **Goal:** Predict and improve user productivity based on activity patterns  
 
-Organisation Mode: Uses a Random Forest Classifier trained on consumer behavior data to predict customer engagement and suggest content optimizations.
+---
 
-Personal Mode: A rule-based decision engine designed to help users prioritize tasks, schedule study hours, and evaluate long-term career paths.
+📊 Dataset
+**Source:** Kaggle  
+**Preprocessing Steps:**
+  - Data cleaning and handling missing values  
+  - Feature selection and transformation  
+  - Splitting into training and testing datasets  
 
-🛠️ Technical Stack
-Backend: Python / Flask
+---
 
-Machine Learning: Scikit-Learn (Random Forest Classifier)
+## 🔑 Features
+- Real-time decision support system  
+- Data preprocessing and feature engineering pipeline  
+- Machine learning-based prediction system  
+- Productivity pattern analysis  
+- Optimized for faster data processing and response  
 
-Data Handling: Pandas / OpenPyXL
+ 📈 Results
+- Achieved  **87% accuracy** on test data using Random Forest  
+- Model effectively identifies productivity patterns and provides reliable recommendations  
+- Improved decision-making efficiency through data-driven insights  
 
-Frontend: HTML5 / Tailwind CSS (Modern Dark UI)
+🛠️ Tech Stack
+- Programming Language:Python  
+- **Libraries:** Pandas, NumPy, Scikit-learn, Matplotlib  
+- **Tools:** Jupyter Notebook / VS Code  
 
-Visualizations: Chart.js (Real-time Feature Distribution)
-
-📊 Model & Performance
-The system uses an ensemble learning approach to ensure high prediction stability.
-
-Algorithm: Random Forest Classifier (200 Estimators)
-
-Validation Method: 80/20 Train-Test Split
-
-Key Features: Income, Recency, Web Purchases, Catalog Purchases, Store Purchases, and Web Visits.
-
-
-Shutterstock
-📋 Requirements
-Ensure you have Python 3.x installed along with the following libraries:
-
-Bash
-pip install flask pandas openpyxl scikit-learn
-
-
-
-🏃 Quick Start
-Place the marketing_campaign.xlsx dataset in the root directory.
-
-Run the Flask server:
-
-Bash
+ ▶️ How to Run
+```bash
+git clone https://github.com/Mohammed-Waseemaddin-1216/Decision-Support-System.git
+cd Decision-Support-System
+pip install -r requirements.txt
 python app.py
-Open your browser and navigate to:
-
-Plaintext
-http://127.0.0.1:5000
-📂 Project Structure
-Plaintext
-
-decision_app/
-
-├── app.py              # Flask Backend & ML Logic
-├── marketing_campaign.xlsx # Dataset
-├── README.md           # Documentation
-└── templates/
-    └── index.html      # Frontend Dashboard
-📉 Visuals & Metrics
-The application provides real-time bar charts showing the "Feature Impact" of the input provided. By analyzing keyword density and historical data, the model determines the likelihood of successful customer response.
-
-🎯 Conclusion
-The Nexus Intelligence system demonstrates how Machine Learning can be integrated into a user-friendly web interface to solve real-world problems in marketing efficiency and personal time management.
