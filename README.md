@@ -4,10 +4,10 @@
 This project is a machine learning-based decision support system designed to analyze user activity data and provide real-time productivity recommendations. The system processes input data, identifies patterns, and generates actionable insights to improve user efficiency.
 
 ⚙️ Model Details
-- **Algorithm:** Random Forest Classifier  
-- **Accuracy:** **87%**  
-- **Type:** Supervised Machine Learning  
-- **Goal:** Predict and improve user productivity based on activity patterns  
+**Algorithm:** Random Forest Classifier  
+**Accuracy:** **87%**  
+**Type:** Supervised Machine Learning  
+**Goal:** Predict and improve user productivity based on activity patterns  
 
 ---
 
